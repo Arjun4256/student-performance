@@ -1,0 +1,38 @@
+--- DB INSPECTION START ---
+TABLES FOUND: student_login, faculty_login, student_semester_performance, admin_login, faculty_profile, student_academic, placement, student_self_view
+
+COLUMNS IN PLACEMENT:
+ - placement_id (integer)
+ - student_id (integer)
+ - company_name (character varying)
+ - package (numeric)
+ - status (character varying)
+ - created_by_admin (integer)
+ - created_at (timestamp without time zone)
+ - updated_at (timestamp without time zone)
+
+TABLE PLACEMENTS NOT FOUND OR HAS NO COLUMNS
+
+COLUMNS IN STUDENT_LOGIN:
+ - login_id (integer)
+ - roll_no (character varying)
+ - email (character varying)
+ - password (text)
+ - is_verified (boolean)
+ - is_active (boolean)
+ - created_at (timestamp without time zone)
+
+COLUMNS IN STUDENT_ACADEMIC:
+ - student_id (integer)
+ - login_id (integer)
+ - name (character varying)
+ - department (character varying)
+ - year (integer)
+ - semester (integer)
+ - cgpa (numeric)
+ - created_by_admin (integer)
+ - updated_by_faculty (integer)
+ - created_at (timestamp without time zone)
+ - updated_at (timestamp without time zone)
+
+--- DB INSPECTION END ---
