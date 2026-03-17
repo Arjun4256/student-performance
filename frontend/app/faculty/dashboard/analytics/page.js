@@ -80,55 +80,87 @@ export default function FacultyAnalytics() {
     };
 
     const renderStudentTable = (students, showCGPA = true) => (
-        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-            <div className="overflow-x-auto">
-                <table className="w-full">
-                    <thead className="bg-zinc-50 dark:bg-zinc-900">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Roll No</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Name</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Department</th>
-                            {showCGPA && (
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">CGPA</th>
-                            )}
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                        {students.length === 0 ? (
+        <div className="space-y-4">
+            {/* Mobile Card View */}
+            <div className="grid grid-cols-1 gap-4 md:hidden">
+                {students.length === 0 ? (
+                    <div className="p-12 text-center text-[#64748B] italic">No students found.</div>
+                ) : (
+                    students.map((student) => (
+                        <div key={student.login_id} className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm space-y-4">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <div className="text-xs font-black text-[#6366F1] uppercase tracking-widest">#{student.roll_no}</div>
+                                    <h3 className="text-lg font-bold text-[#0F172A]">{student.name || "N/A"}</h3>
+                                    <p className="text-xs font-medium text-[#64748B]">{student.department}</p>
+                                </div>
+                                {showCGPA && (
+                                    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-black uppercase tracking-widest shadow-sm ${student.cgpa >= 8.5
+                                        ? "bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100"
+                                        : student.cgpa < 6.0
+                                            ? "bg-rose-50 text-rose-600 ring-1 ring-rose-100"
+                                            : "bg-blue-50 text-blue-600 ring-1 ring-blue-100"
+                                        }`}>
+                                        {student.cgpa || "N/A"}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead className="bg-zinc-50 dark:bg-zinc-900">
                             <tr>
-                                <td colSpan={showCGPA ? "4" : "3"} className="px-6 py-8 text-center text-zinc-500 dark:text-zinc-400">
-                                    No students found
-                                </td>
+                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Roll No</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Name</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Department</th>
+                                {showCGPA && (
+                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">CGPA</th>
+                                )}
                             </tr>
-                        ) : (
-                            students.map((student) => (
-                                <tr key={student.login_id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/50">
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
-                                        {student.roll_no}
+                        </thead>
+                        <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            {students.length === 0 ? (
+                                <tr>
+                                    <td colSpan={showCGPA ? "4" : "3"} className="px-6 py-8 text-center text-zinc-500 dark:text-zinc-400">
+                                        No students found
                                     </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-900 dark:text-white">
-                                        {student.name || "N/A"}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                        {student.department || "N/A"}
-                                    </td>
-                                    {showCGPA && (
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm">
-                                            <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${student.cgpa >= 8.5
+                                </tr>
+                            ) : (
+                                students.map((student) => (
+                                    <tr key={student.login_id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/50">
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
+                                            {student.roll_no}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-900 dark:text-white">
+                                            {student.name || "N/A"}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
+                                            {student.department || "N/A"}
+                                        </td>
+                                        {showCGPA && (
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm">
+                                                <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${student.cgpa >= 8.5
                                                     ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                                                     : student.cgpa < 6.0
                                                         ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
                                                         : "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
-                                                }`}>
-                                                {student.cgpa || "N/A"}
-                                            </span>
-                                        </td>
-                                    )}
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                                                    }`}>
+                                                    {student.cgpa || "N/A"}
+                                                </span>
+                                            </td>
+                                        )}
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
@@ -145,107 +177,108 @@ export default function FacultyAnalytics() {
     }
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-black">
-            <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-                <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-                    <Link href="/faculty/dashboard" className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">
-                        ← Back to Dashboard
+        <div className="space-y-8 animate-in fade-in duration-500">
+            <header className="flex flex-col gap-1">
+                <div className="flex items-center gap-2 mb-2">
+                    <Link href="/faculty/dashboard" className="group flex items-center gap-2 text-xs font-black text-[#3B82F6] uppercase tracking-widest hover:text-[#2563EB] transition-colors">
+                        <div className="p-1.5 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                        </div>
+                        Back to Overview
                     </Link>
-                    <h1 className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">Student Analytics</h1>
-                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Analyze student performance data</p>
                 </div>
+                <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">Performance Analytics</h1>
+                
             </header>
 
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <main className="space-y-6">
                 {/* Tabs */}
-                <div className="mb-6 flex gap-2 border-b border-zinc-200 dark:border-zinc-800">
-                    <button
-                        onClick={() => setActiveTab("all")}
-                        className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === "all"
-                                ? "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
-                                : "border-transparent text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                            }`}
-                    >
-                        All Students ({allStudents.length})
-                    </button>
-                    <button
-                        onClick={() => setActiveTab("weak")}
-                        className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === "weak"
-                                ? "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
-                                : "border-transparent text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                            }`}
-                    >
-                        Weak Students ({weakStudents.length})
-                    </button>
-                    <button
-                        onClick={() => setActiveTab("top")}
-                        className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === "top"
-                                ? "border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400"
-                                : "border-transparent text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                            }`}
-                    >
-                        Top Performers ({topStudents.length})
-                    </button>
+                <div className="flex items-center gap-8 border-b border-[#E2E8F0]">
+                    {[
+                        { id: "all", label: "Registry Overview", count: allStudents.length },
+                        { id: "weak", label: "Priority Support", count: weakStudents.length },
+                        { id: "top", label: "Academic Excellence", count: topStudents.length }
+                    ].map((tab) => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`pb-4 text-[10px] font-black uppercase tracking-widest transition-all relative ${activeTab === tab.id
+                                ? "text-[#0F172A]"
+                                : "text-[#94A3B8] hover:text-[#64748B]"
+                                }`}
+                        >
+                            {tab.label} ({tab.count})
+                            {activeTab === tab.id && (
+                                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#3B82F6] rounded-full animate-in slide-in-from-left-full duration-300"></span>
+                            )}
+                        </button>
+                    ))}
                 </div>
 
                 {/* Filters (only for All Students tab) */}
                 {activeTab === "all" && (
-                    <div className="mb-6 rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950">
-                        <h3 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">Filters</h3>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Department</label>
+                    <div className="rounded-3xl border border-[#E2E8F0] bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:ring-4 hover:ring-slate-50">
+                        <div className="flex items-center gap-2 mb-6">
+                            <div className="p-2 rounded-xl bg-blue-50 text-[#3B82F6] shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
+                            </div>
+                            <h3 className="text-sm font-black text-[#0F172A] uppercase tracking-widest">Filters</h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+                            <div className="group">
+                                <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors">Department</label>
                                 <input
                                     type="text"
                                     placeholder="e.g., CSE"
-                                    className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-[#E2E8F0] rounded-xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                     value={filters.department}
                                     onChange={(e) => setFilters({ ...filters, department: e.target.value })}
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Semester</label>
+                            <div className="group">
+                                <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors">Term</label>
                                 <input
                                     type="number"
                                     placeholder="e.g., 6"
-                                    className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-[#E2E8F0] rounded-xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                     value={filters.semester}
                                     onChange={(e) => setFilters({ ...filters, semester: e.target.value })}
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Min CGPA</label>
+                            <div className="group">
+                                <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors">Min CGPA</label>
                                 <input
                                     type="number"
                                     step="0.1"
-                                    placeholder="e.g., 6.0"
-                                    className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500"
+                                    placeholder="0.0"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-[#E2E8F0] rounded-xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                     value={filters.min_cgpa}
                                     onChange={(e) => setFilters({ ...filters, min_cgpa: e.target.value })}
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Max CGPA</label>
+                            <div className="group">
+                                <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors">Max CGPA</label>
                                 <input
                                     type="number"
                                     step="0.1"
-                                    placeholder="e.g., 9.0"
-                                    className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500"
+                                    placeholder="10.0"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-[#E2E8F0] rounded-xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                     value={filters.max_cgpa}
                                     onChange={(e) => setFilters({ ...filters, max_cgpa: e.target.value })}
                                 />
                             </div>
                         </div>
-                        <div className="mt-4 flex gap-2">
+                        <div className="mt-8 flex gap-3">
                             <button
                                 onClick={applyFilters}
-                                className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+                                className="px-6 py-3 bg-[#0F172A] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#1E293B] transition-all active:scale-95 shadow-lg shadow-slate-200"
                             >
                                 Apply Filters
                             </button>
                             <button
                                 onClick={clearFilters}
-                                className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                                className="px-6 py-3 bg-white border-2 border-[#E2E8F0] text-[#64748B] rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95"
                             >
                                 Clear
                             </button>
@@ -255,40 +288,38 @@ export default function FacultyAnalytics() {
 
                 {/* Content based on active tab */}
                 {activeTab === "all" && (
-                    <div>
-                        <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">All Students</h2>
-                            <span className="text-sm text-zinc-600 dark:text-zinc-400">{allStudents.length} students</span>
+                    <div className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
+                        <div className="flex items-center justify-between px-2">
+                            <h2 className="text-sm font-black text-[#0F172A] uppercase tracking-widest">Search Results</h2>
+                            <p className="text-[10px] font-black text-[#94A3B8] uppercase tracking-widest">Registry Sync: {allStudents.length} Profiles</p>
                         </div>
                         {renderStudentTable(allStudents)}
                     </div>
                 )}
 
                 {activeTab === "weak" && (
-                    <div>
-                        <div className="mb-4 rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
-                            <p className="text-sm text-red-800 dark:text-red-400">
-                                Students with CGPA below 6.0 require attention and support
+                    <div className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
+                        <div className="p-5 rounded-2xl bg-rose-50 border border-rose-100 flex items-center gap-4">
+                            <div className="p-2 rounded-xl bg-white text-rose-500 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                            </div>
+                            <p className="text-sm font-bold text-rose-700 italic">
+                                Critical performance items: {weakStudents.length} students falling below institutional benchmark (6.00).
                             </p>
-                        </div>
-                        <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Weak Students</h2>
-                            <span className="text-sm text-zinc-600 dark:text-zinc-400">{weakStudents.length} students</span>
                         </div>
                         {renderStudentTable(weakStudents)}
                     </div>
                 )}
 
                 {activeTab === "top" && (
-                    <div>
-                        <div className="mb-4 rounded-lg bg-green-50 p-4 dark:bg-green-900/20">
-                            <p className="text-sm text-green-800 dark:text-green-400">
-                                Top performing students with CGPA above 8.5
+                    <div className="space-y-4 animate-in slide-in-from-bottom-4 duration-500">
+                        <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center gap-4">
+                            <div className="p-2 rounded-xl bg-white text-emerald-500 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></svg>
+                            </div>
+                            <p className="text-sm font-bold text-emerald-700 italic">
+                                Academic distinction: {topStudents.length} students exceeding excellence benchmark (8.50).
                             </p>
-                        </div>
-                        <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Top Performers</h2>
-                            <span className="text-sm text-zinc-600 dark:text-zinc-400">{topStudents.length} students</span>
                         </div>
                         {renderStudentTable(topStudents)}
                     </div>

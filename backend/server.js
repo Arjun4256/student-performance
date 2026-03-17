@@ -48,7 +48,7 @@ const facultyAnalyticsRoutes = require('./routes/faculty.analytics.routes');
 app.use('/faculty', facultyAnalyticsRoutes);
 
 const adminDashboardRoutes = require('./routes/admin.dashboard.routes');
-app.use('/admin/dashboard', adminDashboardRoutes);
+app.use('/api/admin/dashboard', adminDashboardRoutes);
 
 const reportRoutes = require('./routes/report.routes');
 app.use('/reports', reportRoutes);

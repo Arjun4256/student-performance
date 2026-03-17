@@ -102,251 +102,291 @@ export default function FacultyManagement() {
     }, [facultyList]);
 
     return (
-        <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black">
-            <header className="flex items-center justify-between border-b border-zinc-200 bg-white px-6 py-4 dark:border-zinc-800 dark:bg-zinc-900 sticky top-0 z-10">
-                <div className="flex items-center gap-4">
-                    <Link href="/admin/dashboard" className="rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500"><path d="m15 18-6-6 6-6" /></svg>
-                    </Link>
-                    <div>
-                        <h1 className="text-xl font-bold text-zinc-900 dark:text-white leading-tight">Faculty Dashboard</h1>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400">View and manage all faculty accounts</p>
-                    </div>
+        <div className="space-y-6">
+            <header className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">Faculty Dashboard</h1>
+                    <p className="text-[#64748B] font-medium">Manage academic staff and accounts</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 mt-4 md:mt-0">
                     <button
                         onClick={fetchFaculty}
-                        className="p-2 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 transition-colors"
+                        className="p-2.5 rounded-xl border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] shadow-sm transition-all"
                         title="Refresh data"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={loading ? "animate-spin" : ""}><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M3 21v-5h5" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`${loading ? "animate-spin" : ""} text-[#64748B]`}><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M3 21v-5h5" /></svg>
                     </button>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-all shadow-sm shadow-blue-500/20"
+                        className="flex-1 md:flex-none rounded-xl bg-[#3B82F6] px-5 py-2.5 text-sm font-bold text-white hover:bg-[#2563EB] shadow-lg shadow-[#3B82F6]/20 transition-all active:scale-95"
                     >
                         + Add Faculty
                     </button>
                 </div>
             </header>
 
-            <main className="flex-1 p-6 space-y-6">
-                {/* Stats Section */}
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 shadow-sm">
-                        <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Faculty</p>
-                        <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">{stats.total}</p>
-                    </div>
-                    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 shadow-sm">
-                        <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Active Members</p>
-                        <p className="mt-2 text-3xl font-bold text-green-600 dark:text-green-400">{stats.active}</p>
-                    </div>
-                    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 shadow-sm">
-                        <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Departments</p>
-                        <p className="mt-2 text-3xl font-bold text-purple-600 dark:text-purple-400">{stats.departments}</p>
-                    </div>
+            {/* Stats Section */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#64748B]">Total Faculty</p>
+                    <p className="mt-2 text-3xl font-extrabold text-[#0F172A]">{stats.total}</p>
                 </div>
+                <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#64748B]">Active Members</p>
+                    <p className="mt-2 text-3xl font-extrabold text-[#10B981]">{stats.active}</p>
+                </div>
+                <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#64748B]">Departments</p>
+                    <p className="mt-2 text-3xl font-extrabold text-[#6366F1]">{stats.departments}</p>
+                </div>
+            </div>
 
-                {/* Filters Section */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-                    <div className="relative flex-1 max-w-md">
-                        <input
-                            type="text"
-                            placeholder="Search by Name, Code or Email..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full rounded-lg border border-zinc-300 bg-white pl-10 pr-4 py-2 text-sm text-zinc-900 placeholder-zinc-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white transition-all"
-                        />
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
-                    </div>
+            {/* Filters Section */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-white px-5 py-4 rounded-2xl border border-[#E2E8F0] shadow-sm">
+                <div className="relative flex-1 max-w-md">
+                    <input
+                        type="text"
+                        placeholder="Search by Name, Code or Email..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] pl-10 pr-4 py-2.5 text-sm font-medium text-[#334155] placeholder-[#94A3B8] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
+                    />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
                 </div>
+            </div>
 
-                {/* Table Section */}
-                <div className="rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900 overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm text-zinc-600 dark:text-zinc-400">
-                            <thead className="bg-zinc-50 text-xs font-semibold uppercase text-zinc-500 dark:bg-zinc-900/50 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-800">
-                                <tr>
-                                    <th className="px-6 py-4">Faculty Info</th>
-                                    <th className="px-6 py-4">Contact</th>
-                                    <th className="px-6 py-4">Department</th>
-                                    <th className="px-6 py-4">Designation</th>
-                                    <th className="px-6 py-4 text-center">Experience</th>
-                                    <th className="px-6 py-4 text-center">Status</th>
-                                    <th className="px-6 py-4 text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                                {loading ? (
-                                    <tr><td colSpan="7" className="px-6 py-12 text-center text-zinc-500">
-                                        <div className="flex flex-col items-center gap-2">
-                                            <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
-                                            Loading faculty members...
-                                        </div>
-                                    </td></tr>
-                                ) : error ? (
-                                    <tr><td colSpan="7" className="px-6 py-12 text-center text-red-500">{error}</td></tr>
-                                ) : filteredFaculty.length === 0 ? (
-                                    <tr><td colSpan="7" className="px-6 py-12 text-center text-zinc-500">No faculty members found match your criteria.</td></tr>
-                                ) : (
-                                    filteredFaculty.map((faculty) => (
-                                        <tr key={faculty.login_id} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors group">
-                                            <td className="px-6 py-4">
-                                                <div className="flex flex-col">
-                                                    <span className="font-semibold text-zinc-900 dark:text-white">{faculty.name}</span>
-                                                    <span className="text-xs text-zinc-500 dark:text-zinc-400">ID: {faculty.faculty_code}</span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="text-zinc-600 dark:text-zinc-400">{faculty.email}</span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="inline-flex rounded-md bg-zinc-100 px-2 py-1 text-xs font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                                                    {faculty.department}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className="text-zinc-700 dark:text-zinc-300">{faculty.designation}</span>
-                                            </td>
-                                            <td className="px-6 py-4 text-center">
-                                                <span className="text-zinc-700 dark:text-zinc-300 font-medium">{faculty.experience}y</span>
-                                            </td>
-                                            <td className="px-6 py-4 text-center">
-                                                <button
-                                                    onClick={() => handleStatusToggle(faculty.login_id, faculty.is_active)}
-                                                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold transition-all ${faculty.is_active
-                                                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                                                        : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-500"
-                                                        }`}
-                                                >
-                                                    <span className={`mr-1.5 h-1.5 w-1.5 rounded-full ${faculty.is_active ? "bg-green-600" : "bg-zinc-400"}`}></span>
-                                                    {faculty.is_active ? "Active" : "Inactive"}
-                                                </button>
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <button
-                                                    onClick={() => handleDeleteFaculty(faculty.login_id)}
-                                                    className="p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
-                                                    title="Delete Faculty"
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+            {/* Mobile Card View */}
+            <div className="grid grid-cols-1 gap-4 md:hidden">
+                {loading ? (
+                    <div className="p-12 text-center text-[#64748B]">Loading faculty...</div>
+                ) : filteredFaculty.length === 0 ? (
+                    <div className="p-12 text-center text-[#64748B] italic">No matching faculty found.</div>
+                ) : (
+                    filteredFaculty.map((faculty) => (
+                        <div key={faculty.login_id} className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm space-y-4">
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <div className="text-xs font-black text-[#64748B] uppercase tracking-tighter">ID: {faculty.faculty_code}</div>
+                                    <h3 className="text-lg font-bold text-[#0F172A]">{faculty.name}</h3>
+                                    <p className="text-sm font-medium text-[#64748B]">{faculty.email}</p>
+                                </div>
+                                <button
+                                    onClick={() => handleStatusToggle(faculty.login_id, faculty.is_active)}
+                                    className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold ${faculty.is_active
+                                        ? "bg-[#F0FDF4] text-[#166534] border border-[#DCFCE7]"
+                                        : "bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0]"
+                                        }`}
+                                >
+                                    {faculty.is_active ? "Active" : "Inactive"}
+                                </button>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-50">
+                                <div>
+                                    <div className="text-[10px] font-bold text-[#94A3B8] uppercase">Department</div>
+                                    <div className="text-sm font-bold text-[#334155]">{faculty.department}</div>
+                                </div>
+                                <div>
+                                    <div className="text-[10px] font-bold text-[#94A3B8] uppercase">Designation</div>
+                                    <div className="text-sm font-bold text-[#334155]">{faculty.designation}</div>
+                                </div>
+                                <div>
+                                    <div className="text-[10px] font-bold text-[#94A3B8] uppercase">Experience</div>
+                                    <div className="text-sm font-black text-[#0F172A]">{faculty.experience} Years</div>
+                                </div>
+                                <div className="flex items-end justify-end gap-2">
+                                    <button
+                                        onClick={() => handleDeleteFaculty(faculty.login_id)}
+                                        className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-[#EF4444] hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* Desktop Table Section */}
+            <div className="hidden md:block rounded-2xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm text-[#334155]">
+                        <thead className="bg-[#F8FAFC] text-xs font-bold uppercase text-[#64748B] border-b border-[#E2E8F0]">
+                            <tr>
+                                <th className="px-6 py-4">Faculty Member</th>
+                                <th className="px-6 py-4">Contact Details</th>
+                                <th className="px-6 py-4">Department</th>
+                                <th className="px-6 py-4">Designation</th>
+                                <th className="px-6 py-4 text-center">Experience</th>
+                                <th className="px-6 py-4 text-center">Account Status</th>
+                                <th className="px-6 py-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#E2E8F0]">
+                            {loading ? (
+                                <tr><td colSpan="7" className="px-6 py-16 text-center text-[#64748B]">
+                                    <div className="flex flex-col items-center gap-3">
+                                        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#3B82F6] border-t-transparent"></div>
+                                        <p className="font-medium">Loading faculty directory...</p>
+                                    </div>
+                                </td></tr>
+                            ) : error ? (
+                                <tr><td colSpan="7" className="px-6 py-16 text-center text-red-500 font-bold">{error}</td></tr>
+                            ) : filteredFaculty.length === 0 ? (
+                                <tr><td colSpan="7" className="px-6 py-16 text-center text-[#64748B] font-medium italic">No faculty members found matching your search.</td></tr>
+                            ) : (
+                                filteredFaculty.map((faculty) => (
+                                    <tr key={faculty.login_id} className="hover:bg-[#F8FAFC] transition-colors group">
+                                        <td className="px-6 py-4">
+                                            <div className="flex flex-col">
+                                                <span className="font-bold text-[#0F172A]">{faculty.name}</span>
+                                                <span className="text-[11px] font-bold text-[#64748B] uppercase tracking-tighter">ID: {faculty.faculty_code}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 font-medium text-[#334155]">{faculty.email}</td>
+                                        <td className="px-6 py-4">
+                                            <span className="inline-flex rounded-lg bg-[#6366F1]/10 px-2.5 py-1 text-xs font-bold text-[#6366F1] border border-[#6366F1]/20">
+                                                {faculty.department}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 font-semibold text-[#475569]">{faculty.designation}</td>
+                                        <td className="px-6 py-4 text-center font-bold text-[#0F172A]">{faculty.experience}y</td>
+                                        <td className="px-6 py-4 text-center">
+                                            <button
+                                                onClick={() => handleStatusToggle(faculty.login_id, faculty.is_active)}
+                                                className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold transition-all border ${faculty.is_active
+                                                    ? "bg-[#F0FDF4] text-[#166534] border-[#DCFCE7]"
+                                                    : "bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]"
+                                                    }`}
+                                            >
+                                                <span className={`mr-2 h-1.5 w-1.5 rounded-full ${faculty.is_active ? "bg-[#22C55E]" : "bg-[#94A3B8]"}`}></span>
+                                                {faculty.is_active ? "Active" : "Inactive"}
+                                            </button>
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <button
+                                                onClick={() => handleDeleteFaculty(faculty.login_id)}
+                                                className="p-2.5 text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#FEF2F2] rounded-xl transition-all opacity-0 group-hover:opacity-100"
+                                                title="Remove Faculty"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-            </main>
+            </div>
 
             {/* Create Faculty Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl dark:bg-zinc-900 animate-in zoom-in-95 duration-200">
-                        <div className="mb-6 flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-4">
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[#0F172A]/40 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="w-full max-w-2xl rounded-3xl bg-white p-8 shadow-2xl animate-in zoom-in-95 duration-200 border border-[#E2E8F0]">
+                        <div className="mb-8 flex items-center justify-between">
                             <div>
-                                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Add New Faculty</h3>
-                                <p className="text-sm text-zinc-500">Create a new faculty account and profile</p>
+                                <h3 className="text-2xl font-bold text-[#0F172A]">Add New Faculty Member</h3>
+                                <p className="text-sm font-medium text-[#64748B]">Create a professional profile for staff accounts</p>
                             </div>
-                            <button onClick={() => setIsModalOpen(false)} className="rounded-full p-2 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                            <button onClick={() => setIsModalOpen(false)} className="rounded-full p-2 text-[#94A3B8] hover:bg-[#F8FAFC] transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                             </button>
                         </div>
-                        <form onSubmit={handleCreateFaculty} className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                        <form onSubmit={handleCreateFaculty} className="space-y-6">
+                            <div className="grid grid-cols-2 gap-5">
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">Faculty Code</label>
+                                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#64748B]">Faculty Employee Code</label>
                                     <input
                                         type="text"
                                         required
                                         placeholder="e.g. F001"
                                         value={formData.faculty_code}
                                         onChange={(e) => setFormData({ ...formData, faculty_code: e.target.value })}
-                                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#334155] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
                                     />
                                 </div>
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">Full Name</label>
+                                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#64748B]">Full Name</label>
                                     <input
                                         type="text"
                                         required
-                                        placeholder="John Doe"
+                                        placeholder="Enter legal name"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#334155] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-5">
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">Email Address</label>
+                                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#64748B]">Institutional Email</label>
                                     <input
                                         type="email"
                                         required
                                         placeholder="faculty@college.edu"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#334155] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
                                     />
                                 </div>
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">Temporary Password</label>
+                                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#64748B]">Temporary Password</label>
                                     <input
                                         type="password"
                                         required
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#334155] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-3 gap-5">
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">Department</label>
+                                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#64748B]">Department</label>
                                     <input
                                         type="text"
                                         required
-                                        placeholder="e.g. Computer Science"
+                                        placeholder="e.g. CSE"
                                         value={formData.department}
                                         onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#334155] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
                                     />
                                 </div>
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">Designation</label>
+                                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#64748B]">Designation</label>
                                     <input
                                         type="text"
                                         required
                                         placeholder="e.g. Professor"
                                         value={formData.designation}
                                         onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
-                                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#334155] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
                                     />
                                 </div>
                                 <div>
-                                    <label className="mb-1.5 block text-sm font-semibold text-zinc-700 dark:text-zinc-300">Experience</label>
+                                    <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#64748B]">Exp (Years)</label>
                                     <input
                                         type="number"
                                         min="0"
                                         value={formData.experience}
                                         onChange={(e) => setFormData({ ...formData, experience: parseInt(e.target.value) || 0 })}
-                                        className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                        className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#334155] focus:bg-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 outline-none transition-all"
                                     />
                                 </div>
                             </div>
-                            <div className="mt-8 flex justify-end gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                            <div className="mt-10 flex justify-end gap-3 pt-6 border-t border-[#E2E8F0]">
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-600 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 transition-colors"
+                                    className="px-6 py-2.5 text-sm font-bold text-[#64748B] hover:text-[#0F172A] transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-bold text-white hover:bg-blue-700 shadow-sm shadow-blue-500/20 active:scale-95 transition-all"
+                                    className="rounded-xl bg-[#3B82F6] px-8 py-2.5 text-sm font-bold text-white hover:bg-[#2563EB] shadow-lg shadow-[#3B82F6]/20 active:scale-95 transition-all"
                                 >
                                     Create Account
                                 </button>

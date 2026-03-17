@@ -61,120 +61,171 @@ export default function PlacementTracking() {
     }
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-black">
-            <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-                <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-                    <Link href="/faculty/dashboard" className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">
-                        ← Back to Dashboard
+        <div className="space-y-8 animate-in fade-in duration-500">
+            <header className="flex flex-col gap-1">
+                <div className="flex items-center gap-2 mb-2">
+                    <Link href="/faculty/dashboard" className="group flex items-center gap-2 text-xs font-black text-[#3B82F6] uppercase tracking-widest hover:text-[#2563EB] transition-colors">
+                        <div className="p-1.5 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                        </div>
+                        Back to Overview
                     </Link>
-                    <h1 className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">Placement Tracking</h1>
-                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">Monitor student placement records</p>
                 </div>
+                <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">Placement Analytics</h1>
+                
             </header>
 
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <main className="space-y-8">
                 {/* Statistics */}
-                <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                    <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
-                        <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Records</div>
-                        <div className="mt-1 text-3xl font-bold text-zinc-900 dark:text-white">{stats.total}</div>
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    <div className="group rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:ring-4 hover:ring-slate-50">
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-[10px] font-black text-[#94A3B8] uppercase tracking-widest">Student Records</span>
+                            <div className="p-2 rounded-xl bg-slate-50 text-[#64748B] group-hover:scale-110 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>
+                            </div>
+                        </div>
+                        <p className="text-3xl font-black text-[#0F172A] tracking-tighter">{stats.total}</p>
                     </div>
-                    <div className="rounded-xl border border-green-200 bg-gradient-to-br from-green-50 to-white p-4 dark:border-green-900/30 dark:from-green-950/20 dark:to-zinc-950">
-                        <div className="text-sm font-medium text-green-700 dark:text-green-400">Placed</div>
-                        <div className="mt-1 text-3xl font-bold text-green-900 dark:text-green-300">{stats.placed}</div>
+
+                    <div className="group rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:ring-4 hover:ring-emerald-50">
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Offers Secured</span>
+                            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 group-hover:scale-110 transition-transform shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                            </div>
+                        </div>
+                        <p className="text-3xl font-black text-emerald-600 tracking-tighter">{stats.placed}</p>
                     </div>
-                    <div className="rounded-xl border border-orange-200 bg-gradient-to-br from-orange-50 to-white p-4 dark:border-orange-900/30 dark:from-orange-950/20 dark:to-zinc-950">
-                        <div className="text-sm font-medium text-orange-700 dark:text-orange-400">Unplaced</div>
-                        <div className="mt-1 text-3xl font-bold text-orange-900 dark:text-orange-300">{stats.unplaced}</div>
+
+                    <div className="group rounded-3xl border border-orange-100 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:ring-4 hover:ring-orange-50">
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest">Pending Evaluation</span>
+                            <div className="p-2 rounded-xl bg-orange-50 text-orange-600 group-hover:scale-110 transition-transform shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                            </div>
+                        </div>
+                        <p className="text-3xl font-black text-orange-600 tracking-tighter">{stats.unplaced}</p>
                     </div>
                 </div>
 
-                {/* Filter Controls */}
-                <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    {/* Status Tabs */}
-                    <div className="flex gap-2">
-                        <button
-                            onClick={() => setFilterStatus("all")}
-                            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${filterStatus === "all"
-                                ? "bg-indigo-600 text-white dark:bg-indigo-500"
-                                : "bg-white text-zinc-700 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-                                }`}
-                        >
-                            All
-                        </button>
-                        <button
-                            onClick={() => setFilterStatus("selected")}
-                            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${filterStatus === "selected"
-                                ? "bg-indigo-600 text-white dark:bg-indigo-500"
-                                : "bg-white text-zinc-700 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-                                }`}
-                        >
-                            Placed
-                        </button>
-                        <button
-                            onClick={() => setFilterStatus("rejected")}
-                            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${filterStatus === "rejected"
-                                ? "bg-indigo-600 text-white dark:bg-indigo-500"
-                                : "bg-white text-zinc-700 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-                                }`}
-                        >
-                            Unplaced
-                        </button>
+                {/* Filters */}
+                <div className="space-y-4">
+                    <div className="flex items-center gap-8 border-b border-[#E2E8F0]">
+                        {[
+                            { id: "all", label: "Records" },
+                            { id: "selected", label: "Selected Talent" },
+                            { id: "rejected", label: "Opportunity Seekers" }
+                        ].map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setFilterStatus(tab.id)}
+                                className={`pb-4 text-[10px] font-black uppercase tracking-widest transition-all relative ${filterStatus === tab.id
+                                    ? "text-[#0F172A]"
+                                    : "text-[#94A3B8] hover:text-[#64748B]"
+                                    }`}
+                            >
+                                {tab.label}
+                                {filterStatus === tab.id && (
+                                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#3B82F6] rounded-full animate-in slide-in-from-left-full duration-300"></span>
+                                )}
+                            </button>
+                        ))}
                     </div>
 
-
+                {/* Mobile Card View */}
+                <div className="grid grid-cols-1 gap-4 md:hidden">
+                    {filteredPlacements.length === 0 ? (
+                        <div className="p-12 text-center text-[#64748B] italic">No matching records found.</div>
+                    ) : (
+                        filteredPlacements.map((placement) => (
+                            <div key={placement.placement_id} className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm space-y-4">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <div className="text-xs font-black text-[#6366F1] uppercase tracking-widest">#{placement.roll_no}</div>
+                                        <h3 className="text-lg font-bold text-[#0F172A]">{placement.name || "N/A"}</h3>
+                                        <p className="text-xs font-medium text-[#64748B]">{placement.department}</p>
+                                    </div>
+                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm ${placement.status?.toLowerCase() === "selected"
+                                        ? "bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100"
+                                        : "bg-orange-50 text-orange-600 ring-1 ring-orange-100"
+                                        }`}>
+                                        {placement.status || "Unknown"}
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-50">
+                                    <div>
+                                        <div className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-tighter">Company</div>
+                                        <div className="text-sm font-bold text-[#334155]">{placement.company_name || "N/A"}</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-tighter">Package</div>
+                                        <div className="text-sm font-black text-[#0F172A]">{placement.package ? `₹${placement.package} LPA` : "N/A"}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
 
-                {/* Placements Table */}
-                <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+                {/* Desktop Table View */}
+                <div className="hidden md:block rounded-3xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:ring-4 hover:ring-slate-50">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-zinc-50 dark:bg-zinc-900">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Student Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Roll No</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Department</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Company</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Package</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Date</th>
+                            <thead>
+                                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0]">
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Name</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Roll no</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Department</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Company</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Package</th>
+                                    <th className="px-8 py-5 text-center text-[10px] font-black uppercase tracking-widest text-[#64748B]">Current Status</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tbody className="divide-y divide-[#F1F5F9]">
                                 {filteredPlacements.length === 0 ? (
                                     <tr>
-                                        <td colSpan="7" className="px-6 py-8 text-center text-zinc-500 dark:text-zinc-400">
-                                            No placement records found
+                                        <td colSpan="6" className="px-8 py-16 text-center">
+                                            <div className="flex flex-col items-center gap-3">
+                                                <div className="p-4 rounded-full bg-slate-50 text-[#94A3B8]">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+                                                </div>
+                                                <p className="text-[#64748B] font-bold italic text-sm">No placement data matched current criteria</p>
+                                            </div>
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredPlacements.map((placement) => (
-                                        <tr key={placement.placement_id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/50">
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
-                                                {placement.name || "N/A"}
+                                        <tr key={placement.placement_id} className="group hover:bg-slate-50/50 transition-colors">
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <p className="text-sm font-black text-[#0F172A]">{placement.name || "N/A"}</p>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                                {placement.roll_no}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <span className="text-xs font-black text-[#6366F1] px-2.5 py-1 bg-indigo-50 rounded-lg shadow-sm">
+                                                    #{placement.roll_no}
+                                                </span>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                                {placement.department || "N/A"}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <p className="text-xs font-bold text-[#475569]">{placement.department || "N/A"}</p>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-900 dark:text-white">
-                                                {placement.company_name || "N/A"}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-[#64748B]">
+                                                        {placement.company_name?.substring(0, 1)}
+                                                    </div>
+                                                    <p className="text-sm font-black text-[#0F172A]">{placement.company_name || "N/A"}</p>
+                                                </div>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm font-semibold text-zinc-900 dark:text-white">
-                                                {placement.package ? `₹${placement.package} LPA` : "N/A"}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <p className="text-sm font-black text-[#0F172A] tracking-tight">{placement.package ? `₹${placement.package} LPA` : "N/A"}</p>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm">
-                                                <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${placement.status?.toLowerCase() === "selected"
-                                                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                                                    : "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400"
+                                            <td className="px-8 py-5 whitespace-nowrap text-center">
+                                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm ${placement.status?.toLowerCase() === "selected"
+                                                    ? "bg-emerald-50 text-emerald-600 ring-1 ring-emerald-100"
+                                                    : "bg-orange-50 text-orange-600 ring-1 ring-orange-100"
                                                     }`}>
                                                     {placement.status || "Unknown"}
                                                 </span>
-                                            </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                                {placement.created_at ? new Date(placement.created_at).toLocaleDateString() : "N/A"}
                                             </td>
                                         </tr>
                                     ))
@@ -183,9 +234,11 @@ export default function PlacementTracking() {
                         </table>
                     </div>
                 </div>
+                </div>
 
-                <div className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">
-                    Showing {filteredPlacements.length} of {placements.length} records
+                <div className="flex items-center justify-between px-2 text-[10px] font-black text-[#94A3B8] uppercase tracking-widest">
+                    <p>Corporate Engagement Insights</p>
+                    <p>Total Sync: {filteredPlacements.length} Records</p>
                 </div>
             </main>
         </div>

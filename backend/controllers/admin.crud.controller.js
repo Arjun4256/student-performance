@@ -332,7 +332,8 @@ exports.deletePlacement = async (req, res) => {
 
 exports.getPlacedStudents = async (req, res) => {
     try {
-        const result = await pool.query(`
+        const { department } = req.query;
+        let query = `
       SELECT sl.login_id, sl.roll_no, sl.email,
              sa.name, sa.department, sa.year, sa.semester, sa.cgpa
       FROM student_login sl
@@ -341,8 +342,15 @@ exports.getPlacedStudents = async (req, res) => {
         SELECT 1 FROM placement p
         WHERE p.student_id = sl.login_id AND TRIM(LOWER(p.status)) IN ('selected', 'placed')
       )
-      ORDER BY sa.cgpa DESC NULLS LAST
-    `);
+    `;
+        const params = [];
+        if (department) {
+            params.push(department);
+            query += ` AND sa.department = $${params.length}`;
+        }
+        query += ` ORDER BY sa.cgpa DESC NULLS LAST`;
+
+        const result = await pool.query(query, params);
         res.json(result.rows);
     } catch (err) {
         console.error("Error in getPlacedStudents:", err);
@@ -351,7 +359,8 @@ exports.getPlacedStudents = async (req, res) => {
 };
 exports.getUnplacedStudents = async (req, res) => {
     try {
-        const result = await pool.query(`
+        const { department } = req.query;
+        let query = `
       SELECT sl.login_id, sl.roll_no, sl.email,
              sa.name, sa.department, sa.year, sa.semester, sa.cgpa
       FROM student_login sl
@@ -361,8 +370,15 @@ exports.getUnplacedStudents = async (req, res) => {
         WHERE p.student_id = sl.login_id 
         AND TRIM(LOWER(p.status)) IN ('selected', 'placed')
       )
-      ORDER BY sa.cgpa DESC NULLS LAST
-    `);
+    `;
+        const params = [];
+        if (department) {
+            params.push(department);
+            query += ` AND sa.department = $${params.length}`;
+        }
+        query += ` ORDER BY sa.cgpa DESC NULLS LAST`;
+
+        const result = await pool.query(query, params);
         res.json(result.rows);
     } catch (err) {
         console.error("Error in getUnplacedStudents:", err);

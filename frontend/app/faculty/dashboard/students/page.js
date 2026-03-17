@@ -92,78 +92,148 @@ export default function StudentManagement() {
     }
 
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-black">
-            <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-                <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-                    <Link href="/faculty/dashboard" className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">
-                        ← Back to Dashboard
+        <div className="space-y-8 animate-in fade-in duration-500">
+            <header className="flex flex-col gap-1">
+                <div className="flex items-center gap-2 mb-2">
+                    <Link href="/faculty/dashboard" className="group flex items-center gap-2 text-xs font-black text-[#3B82F6] uppercase tracking-widest hover:text-[#2563EB] transition-colors">
+                        <div className="p-1.5 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                        </div>
+                        Back to Overview
                     </Link>
-                    <h1 className="mt-2 text-2xl font-bold text-zinc-900 dark:text-white">Student Management</h1>
-                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">View and update student academic records</p>
                 </div>
+                <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">Student Management</h1>
+                
             </header>
 
-            <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <main className="space-y-6">
                 {/* Search Bar */}
-                <div className="mb-6">
+                <div className="relative group">
+                    <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-[#94A3B8] group-focus-within:text-[#3B82F6] transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
                     <input
                         type="text"
-                        placeholder="Search by roll number, name, or department..."
-                        className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500"
+                        placeholder="Search student by roll number, name, or department..."
+                        className="w-full pl-14 pr-6 py-5 bg-white border border-[#E2E8F0] rounded-[2rem] text-[#0F172A] font-bold shadow-sm focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] transition-all outline-none"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
 
-                {/* Students Table */}
-                <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+                {/* Mobile Card View */}
+                <div className="grid grid-cols-1 gap-4 md:hidden">
+                    {filteredStudents.length === 0 ? (
+                        <div className="p-12 text-center text-[#64748B] italic">No matching records found.</div>
+                    ) : (
+                        filteredStudents.map((student) => (
+                            <div key={student.login_id} className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm space-y-4">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <div className="text-xs font-black text-[#6366F1] uppercase tracking-widest">#{student.roll_no}</div>
+                                        <h3 className="text-lg font-bold text-[#0F172A]">{student.name || "N/A"}</h3>
+                                        <p className="text-xs font-medium text-[#64748B]">{student.department}</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className={`text-lg font-black ${parseFloat(student.cgpa) >= 8 ? 'text-emerald-600' :
+                                            parseFloat(student.cgpa) >= 6 ? 'text-blue-600' : 'text-rose-600'
+                                            }`}>
+                                            {parseFloat(student.cgpa).toFixed(2)}
+                                        </div>
+                                        <div className="text-[10px] font-bold text-[#94A3B8] uppercase">CGPA</div>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-50">
+                                    <div>
+                                        <div className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-tighter">Academic Progress</div>
+                                        <div className="text-sm font-bold text-[#334155]">Year {student.year} | Sem {student.semester}</div>
+                                    </div>
+                                    <div className="flex justify-end items-center">
+                                        <button
+                                            onClick={() => handleEdit(student)}
+                                            className="h-10 px-4 rounded-xl bg-blue-50 text-[#3B82F6] text-xs font-black hover:bg-[#3B82F6] hover:text-white transition-all active:scale-95"
+                                        >
+                                            Update Grade
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden md:block rounded-3xl border border-[#E2E8F0] bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:ring-4 hover:ring-slate-50">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-zinc-50 dark:bg-zinc-900">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Roll No</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Department</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Year</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Semester</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">CGPA</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Actions</th>
+                            <thead>
+                                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0]">
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Roll no</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Full Name</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Department</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Year/Sem</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black uppercase tracking-widest text-[#64748B]">Performance</th>
+                                    <th className="px-8 py-5 text-right text-[10px] font-black uppercase tracking-widest text-[#64748B]">Operations</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                            <tbody className="divide-y divide-[#F1F5F9]">
                                 {filteredStudents.length === 0 ? (
                                     <tr>
-                                        <td colSpan="7" className="px-6 py-8 text-center text-zinc-500 dark:text-zinc-400">
-                                            No students found
+                                        <td colSpan="6" className="px-8 py-16 text-center">
+                                            <div className="flex flex-col items-center gap-3">
+                                                <div className="p-4 rounded-full bg-slate-50 text-[#94A3B8]">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+                                                </div>
+                                                <p className="text-[#64748B] font-bold italic text-sm">No matching records found in registry</p>
+                                            </div>
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredStudents.map((student) => (
-                                        <tr key={student.login_id} className="hover:bg-zinc-50 dark:hover:bg-zinc-900/50">
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
-                                                {student.roll_no}
+                                        <tr key={student.login_id} className="group hover:bg-slate-50/50 transition-colors">
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <span className="text-xs font-black text-[#6366F1] px-2.5 py-1 bg-indigo-50 rounded-lg shadow-sm">
+                                                    #{student.roll_no}
+                                                </span>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-900 dark:text-white">
-                                                {student.name || "N/A"}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <p className="text-sm font-black text-[#0F172A]">{student.name || "N/A"}</p>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                                {student.department || "N/A"}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                                                    <p className="text-xs font-bold text-[#475569]">{student.department || "N/A"}</p>
+                                                </div>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                                {student.year || "N/A"}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <p className="text-xs font-bold text-[#64748B]">Y{student.year} | S{student.semester}</p>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                                {student.semester || "N/A"}
+                                            <td className="px-8 py-5 whitespace-nowrap">
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`text-sm font-black ${parseFloat(student.cgpa) >= 8 ? 'text-emerald-600' :
+                                                        parseFloat(student.cgpa) >= 6 ? 'text-blue-600' : 'text-rose-600'
+                                                        }`}>
+                                                        {parseFloat(student.cgpa).toFixed(2)}
+                                                    </span>
+                                                    <div className="flex-1 h-1.5 w-16 bg-slate-100 rounded-full overflow-hidden">
+                                                        <div
+                                                            className={`h-full rounded-full ${parseFloat(student.cgpa) >= 8 ? 'bg-emerald-500' :
+                                                                parseFloat(student.cgpa) >= 6 ? 'bg-blue-500' : 'bg-rose-500'
+                                                                }`}
+                                                            style={{ width: `${(parseFloat(student.cgpa) / 10) * 100}%` }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm font-semibold text-zinc-900 dark:text-white">
-                                                {student.cgpa || "N/A"}
-                                            </td>
-                                            <td className="whitespace-nowrap px-6 py-4 text-sm">
+                                            <td className="px-8 py-5 whitespace-nowrap text-right">
                                                 <button
                                                     onClick={() => handleEdit(student)}
-                                                    className="font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+                                                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black text-[#3B82F6] bg-blue-50 hover:bg-[#3B82F6] hover:text-white transition-all shadow-sm active:scale-95"
                                                 >
-                                                    Edit
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" /></svg>
+                                                    Update Grade
                                                 </button>
                                             </td>
                                         </tr>
@@ -174,75 +244,85 @@ export default function StudentManagement() {
                     </div>
                 </div>
 
-                <div className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">
-                    Showing {filteredStudents.length} of {students.length} students
+                <div className="flex items-center justify-between px-2 text-[10px] font-black text-[#94A3B8] uppercase tracking-widest">
+                    <p>Academic Registry Insights</p>
+                    <p>Total Sync: {filteredStudents.length} Students</p>
                 </div>
             </main>
 
             {/* Edit Modal */}
             {editingStudent && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                    <div className="w-full max-w-lg rounded-2xl bg-white p-8 dark:bg-zinc-900">
-                        <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Edit Student Record</h2>
-
-                        <div className="space-y-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="w-full max-w-lg rounded-[2.5rem] bg-white p-10 shadow-2xl border border-[#E2E8F0] animate-in zoom-in-95 duration-300">
+                        <div className="flex items-center gap-3 mb-8">
+                            <div className="p-3 rounded-2xl bg-blue-50 text-[#3B82F6] shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                            </div>
                             <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Name</label>
+                                <h2 className="text-xl font-black text-[#0F172A] tracking-tight">Grade Submission</h2>
+                                <p className="text-xs font-bold text-[#64748B]">Update institutional record for {editingStudent.name}</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-5">
+                            <div className="group">
+                                <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors"> Name</label>
                                 <input
                                     type="text"
-                                    className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                                    className="w-full px-5 py-4 bg-slate-50 border border-[#E2E8F0] rounded-2xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Department</label>
+                            <div className="group">
+                                <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors">Department</label>
                                 <input
                                     type="text"
-                                    className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                                    className="w-full px-5 py-4 bg-slate-50 border border-[#E2E8F0] rounded-2xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                     value={formData.department}
                                     onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Year</label>
+                                <div className="group">
+                                    <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors">Year</label>
                                     <input
                                         type="number"
-                                        className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                                        className="w-full px-5 py-4 bg-slate-50 border border-[#E2E8F0] rounded-2xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                         value={formData.year}
                                         onChange={(e) => setFormData({ ...formData, year: e.target.value })}
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Semester</label>
+                                <div className="group">
+                                    <label className="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1 group-focus-within:text-[#3B82F6] transition-colors">Semester</label>
                                     <input
                                         type="number"
-                                        className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                                        className="w-full px-5 py-4 bg-slate-50 border border-[#E2E8F0] rounded-2xl text-sm font-bold text-[#0F172A] focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-inner"
                                         value={formData.semester}
                                         onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
                                     />
                                 </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">CGPA</label>
+                            <div className="p-6 rounded-3xl bg-blue-50/50 border border-blue-100 group">
+                                <label className="block text-[10px] font-black text-[#3B82F6] uppercase tracking-widest mb-2 text-center group-focus-within:scale-110 transition-transform">Grade Point Average (CGPA)</label>
                                 <input
                                     type="number"
                                     step="0.01"
-                                    className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2 text-zinc-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                                    className="w-full px-5 py-5 bg-white border-2 border-blue-200 rounded-2xl text-2xl font-black text-[#3B82F6] text-center focus:ring-8 focus:ring-blue-100 focus:border-[#3B82F6] outline-none transition-all shadow-lg"
                                     value={formData.cgpa}
                                     onChange={(e) => setFormData({ ...formData, cgpa: e.target.value })}
                                 />
+                                <p className="mt-3 text-[10px] font-bold text-[#64748B] text-center italic">Institutional threshold for excellence is 8.00+</p>
                             </div>
                         </div>
 
-                        <div className="mt-8 flex gap-4">
+                        <div className="mt-10 flex gap-4">
                             <button
                                 onClick={handleSave}
                                 disabled={saving}
-                                className="flex-1 rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-50 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+                                className="flex-[2] rounded-2xl bg-[#0F172A] py-4 text-sm font-black text-white shadow-xl shadow-slate-200 hover:bg-[#1E293B] hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50"
                             >
-                                {saving ? "Saving..." : "Save Changes"}
+                                {saving ? "Publishing..." : "Finalize & Save Record"}
                             </button>
                             <button
                                 onClick={() => {
@@ -250,9 +330,9 @@ export default function StudentManagement() {
                                     setFormData({});
                                 }}
                                 disabled={saving}
-                                className="flex-1 rounded-lg border border-zinc-300 py-2.5 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:text-white dark:hover:bg-zinc-800"
+                                className="flex-1 rounded-2xl border-2 border-[#E2E8F0] py-4 text-sm font-black text-[#64748B] hover:bg-slate-50 transition-all font-black active:scale-95 disabled:opacity-50"
                             >
-                                Cancel
+                                Discard
                             </button>
                         </div>
                     </div>

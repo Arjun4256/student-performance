@@ -32,67 +32,80 @@ export default function FacultyLogin() {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-blue-50 px-4 dark:from-zinc-950 dark:via-black dark:to-indigo-950">
-            <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl dark:bg-zinc-900">
-                <div className="mb-8 text-center">
-                    <div className="mb-4 flex justify-center">
-                        <div className="rounded-full bg-indigo-100 p-4 dark:bg-indigo-900/30">
-                            <svg className="h-8 w-8 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
+        <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#F1F5F9] px-4 font-sans">
+            {/* Background animated elements */}
+            <div className="absolute -left-[10%] -top-[10%] h-[40rem] w-[40rem] rounded-full bg-indigo-400/20 mix-blend-multiply blur-[128px]"></div>
+            <div className="absolute -bottom-[10%] -right-[10%] h-[40rem] w-[40rem] rounded-full bg-blue-400/20 mix-blend-multiply blur-[128px]"></div>
+            <div className="absolute top-[20%] left-[60%] h-[30rem] w-[30rem] rounded-full bg-violet-400/20 mix-blend-multiply blur-[128px] animate-pulse"></div>
+
+            <div className="group relative z-10 w-full max-w-md">
+                {/* Glowing ring effect */}
+                <div className="absolute -inset-0.5 rounded-[2.2rem] bg-gradient-to-r from-indigo-500 via-blue-500 to-violet-500 opacity-20 blur transition duration-500 group-hover:opacity-75 animate-pulse"></div>
+
+                <div className="relative rounded-[2rem] border border-white/50 bg-white/80 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl sm:p-10">
+                    <div className="mb-8 text-center">
+                        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-lg shadow-indigo-500/20 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" /></svg>
                         </div>
+                        <h1 className="text-3xl font-black text-[#0F172A] tracking-tight">Faculty Portal</h1>
+                        <p className="mt-2 text-sm font-medium text-[#64748B]">Manage academic evaluations</p>
                     </div>
-                    <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Faculty Portal</h1>
-                    <p className="mt-2 text-zinc-600 dark:text-zinc-400">Sign in to manage student records</p>
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        {error && (
+                            <div className="rounded-xl bg-red-50 p-4 text-sm font-medium text-red-600 border border-red-100 flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+                                {error}
+                            </div>
+                        )}
+
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-bold text-[#334155]">Faculty Code</label>
+                            <input
+                                type="text"
+                                name="faculty_code"
+                                required
+                                className="block w-full rounded-xl border border-[#E2E8F0] bg-white/50 px-4 py-3 text-[#0F172A] text-sm font-medium placeholder-[#94A3B8] outline-none transition-all placeholder:font-normal focus:border-[#6366F1] focus:bg-white focus:ring-4 focus:ring-[#6366F1]/10"
+                                placeholder="Enter your faculty code"
+                                value={formData.faculty_code}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="block text-sm font-bold text-[#334155]">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                required
+                                className="block w-full rounded-xl border border-[#E2E8F0] bg-white/50 px-4 py-3 text-[#0F172A] text-sm font-medium placeholder-[#94A3B8] outline-none transition-all placeholder:font-normal focus:border-[#6366F1] focus:bg-white focus:ring-4 focus:ring-[#6366F1]/10"
+                                placeholder="••••••••"
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="mt-2 w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 py-3.5 text-sm font-bold text-white shadow-md shadow-indigo-200 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-300/50 disabled:opacity-70 disabled:hover:translate-y-0"
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                                    <span>Signing in...</span>
+                                </>
+                            ) : "Sign In"}
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center space-y-4">
+                        <Link href="/" className="inline-flex items-center gap-1.5 text-sm font-bold text-[#94A3B8] transition-colors hover:text-[#64748B]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><polyline points="12 19 5 12 12 5" /></svg>
+                            Back to Home
+                        </Link>
+                    </div>
                 </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    {error && (
-                        <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
-                            {error}
-                        </div>
-                    )}
-
-                    <div>
-                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Faculty Code</label>
-                        <input
-                            type="text"
-                            name="faculty_code"
-                            required
-                            placeholder="Enter your faculty code"
-                            className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500"
-                            value={formData.faculty_code}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            required
-                            placeholder="Enter your password"
-                            className="mt-1 block w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-zinc-900 placeholder-zinc-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-500"
-                            value={formData.password}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white transition-all hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 dark:bg-indigo-500 dark:hover:bg-indigo-600"
-                    >
-                        {loading ? "Signing in..." : "Sign In"}
-                    </button>
-                </form>
-
-                <p className="mt-8 text-center text-sm text-zinc-600 dark:text-zinc-400">
-                    <Link href="/" className="font-semibold text-indigo-600 hover:underline dark:text-indigo-400">
-                        ← Back to Home
-                    </Link>
-                </p>
             </div>
         </div>
     );

@@ -13,7 +13,10 @@ exports.placementsByCompany = async (req, res) => {
             ORDER BY total_students DESC
         `);
 
-        res.json(result.rows);
+        res.json(result.rows.map(row => ({
+            ...row,
+            total_students: parseInt(row.total_students)
+        })));
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to fetch placement by company' });
@@ -32,7 +35,10 @@ exports.placementStatusStats = async (req, res) => {
             GROUP BY status
         `);
 
-        res.json(result.rows);
+        res.json(result.rows.map(row => ({
+            ...row,
+            count: parseInt(row.count)
+        })));
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to fetch placement status stats' });
@@ -143,7 +149,10 @@ exports.getPlacementEligibility = async (req, res) => {
             GROUP BY eligibility
         `, [cutoff]);
 
-        res.json(result.rows);
+        res.json(result.rows.map(row => ({
+            ...row,
+            count: parseInt(row.count)
+        })));
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to fetch placement eligibility' });
